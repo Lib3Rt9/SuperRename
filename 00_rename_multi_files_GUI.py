@@ -7,13 +7,15 @@ from tkinter import filedialog
 from tkinter import messagebox
 
 COUNT = 0
+last_renamed_files = 0
+last_renamed_directory = ""
 
 def increment():
     global COUNT
     COUNT = COUNT + 1
 
 def rename_files():
-    global COUNT
+    global COUNT, last_renamed_files, last_renamed_directory
     PREFIX = entry_prefix.get()
     COUNT = int(entry_count.get())
     path = pathlib.Path(directory)
@@ -33,12 +35,17 @@ def rename_files():
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to rename file {file}. Error: {str(e)}")
                 return
+    last_renamed_files = renamed_files
+    last_renamed_directory = directory
     messagebox.showinfo("Success", f"Renaming process completed successfully. {renamed_files} files were renamed.")
 
 def browse_directory():
     global directory
     directory = filedialog.askdirectory()
     label_directory.config(text=directory)
+
+def show_last_process():
+    messagebox.showinfo("Last Process", f"Last renaming process renamed {last_renamed_files} files in the directory {last_renamed_directory}.")
 
 files_to_ignore = ['00_rename_multi_files.py', 'README.md']
 folder_to_ignore = ['.git']
@@ -63,5 +70,8 @@ label_directory.pack()
 
 button_rename = tk.Button(root, text="Rename Files", command=rename_files)
 button_rename.pack()
+
+button_last_process = tk.Button(root, text="Show Last Process", command=show_last_process)
+button_last_process.pack()
 
 root.mainloop()
