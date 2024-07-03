@@ -37,15 +37,13 @@ def rename_files():
                 return
     last_renamed_files = renamed_files
     last_renamed_directory = directory
+    label_last_process.config(text=f"Last renaming process renamed {last_renamed_files} files in the directory {last_renamed_directory}.")
     messagebox.showinfo("Success", f"Renaming process completed successfully. {renamed_files} files were renamed.")
 
 def browse_directory():
     global directory
     directory = filedialog.askdirectory()
     label_directory.config(text=directory)
-
-def show_last_process():
-    messagebox.showinfo("Last Process", f"Last renaming process renamed {last_renamed_files} files in the directory {last_renamed_directory}.")
 
 files_to_ignore = ['00_rename_multi_files.py', 'README.md']
 folder_to_ignore = ['.git']
@@ -71,7 +69,7 @@ label_directory.pack()
 button_rename = tk.Button(root, text="Rename Files", command=rename_files)
 button_rename.pack()
 
-button_last_process = tk.Button(root, text="Show Last Process", command=show_last_process)
-button_last_process.pack()
+label_last_process = tk.Label(root, text="")
+label_last_process.pack()
 
 root.mainloop()
