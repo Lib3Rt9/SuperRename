@@ -4,6 +4,7 @@ import glob
 from itertools import chain
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import messagebox
 
 COUNT = 0
 
@@ -19,13 +20,20 @@ def rename_files():
     items_set = set(chain(files_to_ignore, folder_to_ignore, extension_to_ignore))
 
     os.chdir(path)
+    renamed_files = 0
     for file in os.listdir():
         if file not in items_set:
             file_name, file_ext = os.path.splitext(file)
             file_name = PREFIX + str(COUNT)
             increment()
             new_name = '{}{}'.format(file_name, file_ext)
-            os.rename(file, new_name)
+            try:
+                os.rename(file, new_name)
+                renamed_files += 1
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to rename file {file}. Error: {str(e)}")
+                return
+    messagebox.showinfo("Success", f"Renaming process completed successfully. {renamed_files} files were renamed.")
 
 def browse_directory():
     global directory
