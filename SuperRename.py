@@ -1,10 +1,10 @@
+from itertools import chain
 import os
 import pathlib
-import glob
-from itertools import chain
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+import tkinter.scrolledtext as st
 
 COUNT = 0
 last_renamed_files = 0
@@ -12,7 +12,7 @@ last_renamed_directory = ""
 
 def increment():
     global COUNT
-    COUNT = COUNT + 1
+    COUNT += 1
 
 def rename_files():
     global COUNT, last_renamed_files, last_renamed_directory
@@ -49,7 +49,10 @@ def rename_files():
                 return
     last_renamed_files = renamed_files
     last_renamed_directory = directory
-    label_last_process.config(text=f"Last renaming process renamed {last_renamed_files} files in the directory:\n{last_renamed_directory}")
+    label_last_process.config(state='normal')
+    label_last_process.delete('1.0', tk.END)
+    label_last_process.insert(tk.END, f"Last renamed {last_renamed_files} files in the directory:\n{last_renamed_directory}")
+    label_last_process.config(state='disabled')
     messagebox.showinfo("Success", f"Renaming process completed successfully. {renamed_files} files were renamed.")
 
 def browse_directory():
@@ -73,16 +76,17 @@ folder_to_ignore = ['.git']
 extension_to_ignore = ['.git']
 
 root = tk.Tk()
-root.geometry("800x600")  # Set the initial size of the window
-root.resizable(True, True)  # Make the window resizable
+root.geometry("800x600")
+root.resizable(True, True)
+root.title("File Renamer")
 
-medium_font = ('Verdana',14)
-large_font = ('Verdana',20)
+medium_font = ('Verdana', 14)
+large_font = ('Verdana', 20)
 
 label_prefix = tk.Label(root, text="Enter a prefix:", font=medium_font, anchor='w')
 label_prefix.pack(fill='x', padx=10, pady=5)
 entry_prefix = tk.Entry(root, font=medium_font)
-entry_prefix.insert(0, "prefix")  # Set the default value for prefix
+entry_prefix.insert(0, "prefix")
 entry_prefix.pack(fill='x', padx=10, pady=5)
 
 middlefix_frame = tk.Frame(root)
@@ -90,12 +94,16 @@ middlefix_frame.pack(fill='x', padx=10, pady=5)
 label_middlefix = tk.Label(middlefix_frame, text="Choose a middlefix:", font=medium_font, anchor='w')
 label_middlefix.pack(side='left')
 middlefix_var = tk.StringVar(root)
-middlefix_var.set("-")  # Set the default value for middlefix
+middlefix_var.set("-")
 middlefix_var.trace("w", update_middlefix)
 middlefix_options = ["-", "_", "space", "others"]
-middlefix_dropdown = tk.OptionMenu(middlefix_frame, middlefix_var, *middlefix_options)
-middlefix_dropdown.config(font=large_font, bg='light blue')
+middlefix_dropdown = tk.Menubutton(middlefix_frame, textvariable=middlefix_var, font=large_font, bg='light blue', width=10)
 middlefix_dropdown.pack(side='left')
+menu = tk.Menu(middlefix_dropdown, tearoff=False)
+middlefix_dropdown.configure(menu=menu)
+for option in middlefix_options:
+    menu.add_radiobutton(label=option, variable=middlefix_var, value=option)
+
 var1 = tk.IntVar()
 check1 = tk.Checkbutton(middlefix_frame, text="Add space", variable=var1, state="normal")
 check1.pack(side='left')
