@@ -17,8 +17,21 @@ def increment():
 def rename_files():
     global COUNT, last_renamed_files, last_renamed_directory
     PREFIX = entry_prefix.get()
-    MIDDLEFIX = entry_middlefix.get()
-    COUNT = int(entry_count.get())
+    MIDDLEFIX = middlefix_var.get()
+    if MIDDLEFIX == "others":
+        MIDDLEFIX = entry_middlefix.get()
+    elif MIDDLEFIX == "space":
+        MIDDLEFIX = " "
+    else:
+        if var1.get() == 1:
+            MIDDLEFIX = " " + MIDDLEFIX
+        if var2.get() == 1:
+            MIDDLEFIX = MIDDLEFIX + " "
+    try:
+        COUNT = int(entry_count.get())
+    except ValueError:
+        messagebox.showerror("Error", "Postfix must be a natural number.")
+        return
     path = pathlib.Path(directory)
     items_set = set(chain(files_to_ignore, folder_to_ignore, extension_to_ignore))
 
@@ -62,10 +75,20 @@ entry_prefix = tk.Entry(root, font=medium_font)
 entry_prefix.insert(0, "prefix")  # Set the default value for prefix
 entry_prefix.pack(fill='x', padx=10, pady=5)
 
-label_middlefix = tk.Label(root, text="Enter a middlefix:", font=medium_font, anchor='w')
+label_middlefix = tk.Label(root, text="Choose a middlefix:", font=medium_font, anchor='w')
 label_middlefix.pack(fill='x', padx=10, pady=5)
+middlefix_var = tk.StringVar(root)
+middlefix_var.set("-")  # Set the default value for middlefix
+middlefix_options = ["-", "_", "space", "others"]
+middlefix_dropdown = tk.OptionMenu(root, middlefix_var, *middlefix_options)
+middlefix_dropdown.pack(fill='x', padx=10, pady=5)
+var1 = tk.IntVar()
+var2 = tk.IntVar()
+check1 = tk.Checkbutton(root, text="Add space before middlefix", variable=var1)
+check1.pack(fill='x', padx=10, pady=5)
+check2 = tk.Checkbutton(root, text="Add space after middlefix", variable=var2)
+check2.pack(fill='x', padx=10, pady=5)
 entry_middlefix = tk.Entry(root, font=medium_font)
-entry_middlefix.insert(0, "-")  # Set the default value for middlefix
 entry_middlefix.pack(fill='x', padx=10, pady=5)
 
 label_count = tk.Label(root, text="Enter starting number:", font=medium_font, anchor='w')
