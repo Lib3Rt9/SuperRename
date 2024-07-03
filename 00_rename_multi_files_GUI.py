@@ -50,6 +50,8 @@ folder_to_ignore = ['.git']
 extension_to_ignore = ['.git']
 
 root = tk.Tk()
+root.geometry("800x600")  # Set the initial size of the window
+root.resizable(True, True)  # Make the window resizable
 
 label_prefix = tk.Label(root, text="Enter a prefix:")
 label_prefix.pack()
