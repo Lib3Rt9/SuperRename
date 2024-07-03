@@ -53,25 +53,27 @@ root = tk.Tk()
 root.geometry("800x600")  # Set the initial size of the window
 root.resizable(True, True)  # Make the window resizable
 
-label_prefix = tk.Label(root, text="Enter a prefix:")
+medium_font = ('Verdana',14)
+
+label_prefix = tk.Label(root, text="Enter a prefix:", font=medium_font)
 label_prefix.pack()
-entry_prefix = tk.Entry(root)
-entry_prefix.pack()
+entry_prefix = tk.Entry(root, font=medium_font)
+entry_prefix.pack(fill='x')
 
-label_count = tk.Label(root, text="Enter starting number:")
+label_count = tk.Label(root, text="Enter starting number:", font=medium_font)
 label_count.pack()
-entry_count = tk.Entry(root)
-entry_count.pack()
+entry_count = tk.Entry(root, font=medium_font)
+entry_count.pack(fill='x')
 
-button_browse = tk.Button(root, text="Browse", command=browse_directory)
-button_browse.pack()
-label_directory = tk.Label(root, text="")
+button_browse = tk.Button(root, text="Browse", command=browse_directory, font=medium_font)
+button_browse.pack(fill='x')
+label_directory = tk.Label(root, text="", font=medium_font)
 label_directory.pack()
 
-button_rename = tk.Button(root, text="Rename Files", command=rename_files)
-button_rename.pack()
+button_rename = tk.Button(root, text="Rename Files", command=rename_files, font=medium_font)
+button_rename.pack(fill='x')
 
-label_last_process = tk.Label(root, text="")
+label_last_process = tk.Label(root, text="", font=medium_font)
 label_last_process.pack()
 
 root.mainloop()
