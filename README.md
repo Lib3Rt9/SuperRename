@@ -1,3 +1,3 @@
 # SuperRename
 
-Double click SuperRename.exe to start renaming
+First release of SuperRename.
