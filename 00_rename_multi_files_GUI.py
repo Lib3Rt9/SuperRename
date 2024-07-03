@@ -37,7 +37,7 @@ def rename_files():
                 return
     last_renamed_files = renamed_files
     last_renamed_directory = directory
-    label_last_process.config(text=f"Last renaming process renamed {last_renamed_files} files in the directory {last_renamed_directory}.")
+    label_last_process.config(text=f"Last renaming process renamed {last_renamed_files} files in the directory:\n{last_renamed_directory}")
     messagebox.showinfo("Success", f"Renaming process completed successfully. {renamed_files} files were renamed.")
 
 def browse_directory():
@@ -55,25 +55,25 @@ root.resizable(True, True)  # Make the window resizable
 
 medium_font = ('Verdana',14)
 
-label_prefix = tk.Label(root, text="Enter a prefix:", font=medium_font)
-label_prefix.pack()
+label_prefix = tk.Label(root, text="Enter a prefix:", font=medium_font, anchor='w')
+label_prefix.pack(fill='x', padx=10, pady=5)
 entry_prefix = tk.Entry(root, font=medium_font)
-entry_prefix.pack(fill='x')
+entry_prefix.pack(fill='x', padx=10, pady=5)
 
-label_count = tk.Label(root, text="Enter starting number:", font=medium_font)
-label_count.pack()
+label_count = tk.Label(root, text="Enter starting number:", font=medium_font, anchor='w')
+label_count.pack(fill='x', padx=10, pady=5)
 entry_count = tk.Entry(root, font=medium_font)
-entry_count.pack(fill='x')
+entry_count.pack(fill='x', padx=10, pady=5)
 
-button_browse = tk.Button(root, text="Browse", command=browse_directory, font=medium_font)
-button_browse.pack(fill='x')
-label_directory = tk.Label(root, text="", font=medium_font)
-label_directory.pack()
+button_browse = tk.Button(root, text="Browse", command=browse_directory, font=medium_font, bg='light blue')
+button_browse.pack(fill='x', padx=10, pady=5)
+label_directory = tk.Label(root, text="", font=medium_font, wraplength=700, anchor='w')
+label_directory.pack(fill='x', padx=10, pady=5)
 
-button_rename = tk.Button(root, text="Rename Files", command=rename_files, font=medium_font)
-button_rename.pack(fill='x')
+button_rename = tk.Button(root, text="Rename Files", command=rename_files, font=medium_font, bg='light green')
+button_rename.pack(fill='x', padx=10, pady=5)
 
-label_last_process = tk.Label(root, text="", font=medium_font)
-label_last_process.pack()
+label_last_process = tk.Label(root, text="", font=medium_font, wraplength=700, anchor='w')
+label_last_process.pack(fill='x', padx=10, pady=5)
 
 root.mainloop()
