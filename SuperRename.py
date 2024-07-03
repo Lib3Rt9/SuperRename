@@ -94,11 +94,12 @@ middlefix_var.set("-")  # Set the default value for middlefix
 middlefix_var.trace("w", update_middlefix)
 middlefix_options = ["-", "_", "space", "others"]
 middlefix_dropdown = tk.OptionMenu(middlefix_frame, middlefix_var, *middlefix_options)
-middlefix_dropdown.config(font=large_font)
+middlefix_dropdown.config(font=large_font, bg='light blue')
 middlefix_dropdown.pack(side='left')
 var1 = tk.IntVar()
 check1 = tk.Checkbutton(middlefix_frame, text="Add space", variable=var1, state="normal")
 check1.pack(side='left')
+
 entry_middlefix = tk.Entry(root, font=medium_font, state="disabled")
 entry_middlefix.pack(fill='x', padx=10, pady=5)
 
