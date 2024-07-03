@@ -59,16 +59,19 @@ medium_font = ('Verdana',14)
 label_prefix = tk.Label(root, text="Enter a prefix:", font=medium_font, anchor='w')
 label_prefix.pack(fill='x', padx=10, pady=5)
 entry_prefix = tk.Entry(root, font=medium_font)
+entry_prefix.insert(0, "prefix")  # Set the default value for prefix
 entry_prefix.pack(fill='x', padx=10, pady=5)
 
 label_middlefix = tk.Label(root, text="Enter a middlefix:", font=medium_font, anchor='w')
 label_middlefix.pack(fill='x', padx=10, pady=5)
 entry_middlefix = tk.Entry(root, font=medium_font)
+entry_middlefix.insert(0, "-")  # Set the default value for middlefix
 entry_middlefix.pack(fill='x', padx=10, pady=5)
 
 label_count = tk.Label(root, text="Enter starting number:", font=medium_font, anchor='w')
 label_count.pack(fill='x', padx=10, pady=5)
 entry_count = tk.Entry(root, font=medium_font)
+entry_count.insert(0, "0")  # Set the default value for postfix
 entry_count.pack(fill='x', padx=10, pady=5)
 
 button_browse = tk.Button(root, text="Browse", command=browse_directory, font=medium_font, bg='light blue')
