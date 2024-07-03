@@ -20,13 +20,9 @@ def rename_files():
     MIDDLEFIX = middlefix_var.get()
     if MIDDLEFIX == "others":
         MIDDLEFIX = entry_middlefix.get()
-    elif MIDDLEFIX == "space":
-        MIDDLEFIX = " "
     else:
         if var1.get() == 1:
-            MIDDLEFIX = " " + MIDDLEFIX
-        if var2.get() == 1:
-            MIDDLEFIX = MIDDLEFIX + " "
+            MIDDLEFIX = " " + MIDDLEFIX + " "
     try:
         COUNT = int(entry_count.get())
     except ValueError:
@@ -59,6 +55,12 @@ def browse_directory():
     directory = filedialog.askdirectory()
     label_directory.config(text=directory)
 
+def update_middlefix(*args):
+    if middlefix_var.get() == "others":
+        entry_middlefix.config(state="normal")
+    else:
+        entry_middlefix.config(state="disabled")
+
 files_to_ignore = ['00_rename_multi_files.py', 'README.md']
 folder_to_ignore = ['.git']
 extension_to_ignore = ['.git']
@@ -75,21 +77,21 @@ entry_prefix = tk.Entry(root, font=medium_font)
 entry_prefix.insert(0, "prefix")  # Set the default value for prefix
 entry_prefix.pack(fill='x', padx=10, pady=5)
 
-label_middlefix = tk.Label(root, text="Choose a middlefix:", font=medium_font, anchor='w')
-label_middlefix.pack(fill='x', padx=10, pady=5)
+middlefix_frame = tk.Frame(root)
+middlefix_frame.pack(fill='x', padx=10, pady=5)
+label_middlefix = tk.Label(middlefix_frame, text="Choose a middlefix:", font=medium_font, anchor='w')
+label_middlefix.pack(side='left')
 middlefix_var = tk.StringVar(root)
 middlefix_var.set("-")  # Set the default value for middlefix
+middlefix_var.trace("w", update_middlefix)
 middlefix_options = ["-", "_", "space", "others"]
-middlefix_dropdown = tk.OptionMenu(root, middlefix_var, *middlefix_options)
-middlefix_dropdown.pack(fill='x', padx=10, pady=5)
+middlefix_dropdown = tk.OptionMenu(middlefix_frame, middlefix_var, *middlefix_options)
+middlefix_dropdown.pack(side='left')
 var1 = tk.IntVar()
-var2 = tk.IntVar()
-check1 = tk.Checkbutton(root, text="Add space before middlefix", variable=var1)
-check1.pack(fill='x', padx=10, pady=5)
-check2 = tk.Checkbutton(root, text="Add space after middlefix", variable=var2)
-check2.pack(fill='x', padx=10, pady=5)
-entry_middlefix = tk.Entry(root, font=medium_font)
-entry_middlefix.pack(fill='x', padx=10, pady=5)
+check1 = tk.Checkbutton(middlefix_frame, text="Add space", variable=var1)
+check1.pack(side='left')
+entry_middlefix = tk.Entry(middlefix_frame, font=medium_font, state="disabled")
+entry_middlefix.pack(fill='x', side='left')
 
 label_count = tk.Label(root, text="Enter starting number:", font=medium_font, anchor='w')
 label_count.pack(fill='x', padx=10, pady=5)
