@@ -20,6 +20,8 @@ def rename_files():
     MIDDLEFIX = middlefix_var.get()
     if MIDDLEFIX == "others":
         MIDDLEFIX = entry_middlefix.get()
+    elif MIDDLEFIX == "space":
+        MIDDLEFIX = " "
     else:
         if var1.get() == 1:
             MIDDLEFIX = " " + MIDDLEFIX + " "
@@ -58,8 +60,13 @@ def browse_directory():
 def update_middlefix(*args):
     if middlefix_var.get() == "others":
         entry_middlefix.config(state="normal")
+        check1.config(state="disabled")
+    elif middlefix_var.get() == "space":
+        entry_middlefix.config(state="disabled")
+        check1.config(state="disabled")
     else:
         entry_middlefix.config(state="disabled")
+        check1.config(state="normal")
 
 files_to_ignore = ['00_rename_multi_files.py', 'README.md']
 folder_to_ignore = ['.git']
@@ -70,6 +77,7 @@ root.geometry("800x600")  # Set the initial size of the window
 root.resizable(True, True)  # Make the window resizable
 
 medium_font = ('Verdana',14)
+large_font = ('Verdana',20)
 
 label_prefix = tk.Label(root, text="Enter a prefix:", font=medium_font, anchor='w')
 label_prefix.pack(fill='x', padx=10, pady=5)
@@ -86,12 +94,13 @@ middlefix_var.set("-")  # Set the default value for middlefix
 middlefix_var.trace("w", update_middlefix)
 middlefix_options = ["-", "_", "space", "others"]
 middlefix_dropdown = tk.OptionMenu(middlefix_frame, middlefix_var, *middlefix_options)
+middlefix_dropdown.config(font=large_font)
 middlefix_dropdown.pack(side='left')
 var1 = tk.IntVar()
-check1 = tk.Checkbutton(middlefix_frame, text="Add space", variable=var1)
+check1 = tk.Checkbutton(middlefix_frame, text="Add space", variable=var1, state="normal")
 check1.pack(side='left')
-entry_middlefix = tk.Entry(middlefix_frame, font=medium_font, state="disabled")
-entry_middlefix.pack(fill='x', side='left')
+entry_middlefix = tk.Entry(root, font=medium_font, state="disabled")
+entry_middlefix.pack(fill='x', padx=10, pady=5)
 
 label_count = tk.Label(root, text="Enter starting number:", font=medium_font, anchor='w')
 label_count.pack(fill='x', padx=10, pady=5)
