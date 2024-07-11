@@ -50,13 +50,15 @@ def rename_files():
                 return
     last_renamed_files = renamed_files
     last_renamed_directory = directory
-    label_last_process.config(text=f"Last renamed {last_renamed_files} files in the directory:\n{last_renamed_directory}")
+    label_last_process.delete('1.0', tk.END)
+    label_last_process.insert(tk.END, f"Last renamed {last_renamed_files} files in the directory:\n{last_renamed_directory}")
     messagebox.showinfo("Success", f"Renaming process completed successfully. {renamed_files} files were renamed.")
 
 def browse_directory():
     global directory
     directory = filedialog.askdirectory()
-    label_directory.config(text=directory)
+    label_directory.delete('1.0', tk.END)
+    label_directory.insert(tk.END, directory)
 
 def update_middlefix(*args):
     if middlefix_var.get() == "others":
@@ -74,9 +76,9 @@ folder_to_ignore = ['.git']
 extension_to_ignore = ['.git']
 
 root = tk.Tk()
-root.geometry("500x600")  # Set the initial size of the window
-root.resizable(True, True)  # Make the window resizable
-root.title("Mass Rename")  # Set the title of the window
+root.geometry("500x600")
+root.resizable(True, True)
+root.title("Super Rename")
 
 small_font = ('Verdana', 12)
 medium_font = ('Verdana', 14)
@@ -85,7 +87,7 @@ large_font = ('Verdana', 20)
 label_prefix = tk.Label(root, text="Enter a prefix:", font=medium_font, anchor='w')
 label_prefix.pack(fill='x', padx=10, pady=5)
 entry_prefix = tk.Entry(root, font=small_font)
-entry_prefix.insert(0, "prefix")  # Set the default value for prefix
+entry_prefix.insert(0, "prefix")
 entry_prefix.pack(fill='x', padx=10, pady=5)
 
 label_middlefix_frame = tk.Frame(root)
@@ -96,19 +98,16 @@ label_middlefix.pack(side='left')
 dropdown_frame = tk.Frame(root)
 dropdown_frame.pack(fill='x', padx=10, pady=5)
 middlefix_var = tk.StringVar(root)
-middlefix_var.set("-")  # Set the default value for middlefix
+middlefix_var.set("-")
 middlefix_var.trace("w", update_middlefix)
 middlefix_options = ["-", "_", "space", "others"]
 
-# Create a Menubutton with a fixed width
 middlefix_dropdown = tk.Menubutton(dropdown_frame, textvariable=middlefix_var, font=small_font, bg='light blue', width=10)
 middlefix_dropdown.pack(side='left')
 
-# Create a Menu and add it to the Menubutton
 menu = tk.Menu(middlefix_dropdown, tearoff=False)
 middlefix_dropdown.configure(menu=menu)
 
-# Add the options to the Menu
 for option in middlefix_options:
     menu.add_radiobutton(label=option, variable=middlefix_var, value=option, font=small_font)
 
@@ -122,18 +121,18 @@ entry_middlefix.pack(fill='x', padx=10, pady=5)
 label_postfix = tk.Label(root, text="Enter starting number:", font=medium_font, anchor='w')
 label_postfix.pack(fill='x', padx=10, pady=5)
 entry_postfix = tk.Entry(root, font=small_font)
-entry_postfix.insert(0, "0")  # Set the default value for postfix
+entry_postfix.insert(0, "0")
 entry_postfix.pack(fill='x', padx=10, pady=5)
 
 button_browse = tk.Button(root, text="Browse", command=browse_directory, font=medium_font, bg='light blue')
 button_browse.pack(fill='x', padx=10, pady=5)
-label_directory = tk.Label(root, text="", font=small_font, wraplength=700, anchor='w')
+label_directory = st.ScrolledText(root, font=small_font, wrap='word', width=40, height=1)
 label_directory.pack(fill='x', padx=10, pady=5)
 
 button_rename = tk.Button(root, text="Rename Files", command=rename_files, font=medium_font, bg='light green')
 button_rename.pack(fill='x', padx=10, pady=5)
 
-label_last_process = tk.Label(root, text="", font=small_font, wraplength=700, anchor='w')
+label_last_process = st.ScrolledText(root, font=small_font, wrap='word', width=40, height=10)
 label_last_process.pack(fill='x', padx=10, pady=5)
 
 root.mainloop()
